@@ -5,11 +5,6 @@ import Show from "components/Appointment/Show";
 import Empty from "components/Appointment/Empty";
 
 export default function Appointment(props) {
-  console.log("this is props: ", props);
-  console.log("this is student: ", props.student);
-  console.log("this is interviewer: ", props.interviewer);
-
-  
   return (
     <article className="appointment">
       <Header
