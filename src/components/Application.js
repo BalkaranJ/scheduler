@@ -24,22 +24,12 @@ export default function Application(props) {
     interviewers: []
   });
 
-  function bookInterview(id, interview) {
-      
-      // console.log("this is state.appointments: ", state.appointments[id]);
-      //Gets correct id (student name) and interviewer id from save function when saving appointment
-      // console.log("this is id, interview inside of bookInterview Function: ", id, interview);
-
-
+  function bookInterview(id, interview)  {
       //Bottom layer
       const appointment = {
         ...state.appointments[id],
         interview: { ...interview }
       };
-      
-      
-      //Holding the new interview as an object at the bottom of appointment 
-      console.log("this is appointment: ", appointment);
       
       //Up one layer
       const appointments = {
@@ -51,7 +41,15 @@ export default function Application(props) {
       setState({
         ...state,
         appointments
-      });   
+      });
+
+      const url = `/api/appointments/${id}`;
+      const promise = axios
+          .put(url, appointment)
+          .then(() => {
+            setState({...state, appointments});
+          });
+      return promise;    
   }
 
   useEffect(() => {
