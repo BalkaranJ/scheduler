@@ -5,22 +5,7 @@ export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial]);
 
   function transition(newMode, replace = false) {
-    
-    // if (replace === false) {
 
-    //   const newHistory = [...history];
-    //   newHistory.push(newMode);      
-    //   setMode(newMode);
-    //   setHistory(newHistory);
-
-    // } else {
-    //   const newHistory = [...history];
-    //   newHistory.pop();
-    //   newHistory.push(newMode);      
-    //   setMode(newMode);
-    //   setHistory(newHistory);
-    // }
-    
     const newHistory = [...history];
     if (replace) {newHistory.pop();}
     newHistory.push(newMode);      

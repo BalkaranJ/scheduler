@@ -9,7 +9,7 @@ import "components/Appointment";
 import InterviewerList from "components/InterviewerList";
 import Appointment from "components/Appointment";
 
-import { getAppointmentsForDay, getInterview } from "components/helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "components/helpers/selectors";
 
 
 const axios = require('axios');
@@ -21,11 +21,29 @@ export default function Application(props) {
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: []
   });
 
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    return new Promise((resolve, reject) => {
+      //Bottom layer
+      console.log("this is ...state: ", state.appointments[id]);
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      //Up one layer
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      //Top Level, calling setState with the new state object
+      setState({
+        ...state,
+        appointments
+      });   
+      return resolve(interview);
+    });
   }
 
   useEffect(() => {
@@ -48,7 +66,7 @@ export default function Application(props) {
         />} 
         {<hr className="sidebar__separator sidebar--centered" />}
         {<nav className="sidebar__menu">
-          <DayList 
+          <DayList
             days={state.days}
             day={state.day}
             setDay={setDay}
@@ -64,10 +82,12 @@ export default function Application(props) {
         {
           getAppointmentsForDay(state, state.day).map(appointment => {
             const interview = getInterview(state, appointment.interview);
+            const interviewers = getInterviewersForDay(state, state.day);            
             return (
                 <Appointment
                   key={appointment.id}
                   {...appointment}
+                  interviewers={interviewers}
                   interview={interview}
                   bookInterview={bookInterview}
                 />

@@ -34,9 +34,9 @@ export function getInterviewersForDay(state, day) {
   for (let currentDay of state.days) {    
     if (currentDay.name === day) {
       const interviewersArray = currentDay.interviewers;
-      const interviewers = interviewersArray.map((id) => {        
+      const interviewers = interviewersArray.map((id) => {                
         return (
-          state.appointments[id]          
+          state.interviewers[id]          
         );
       })
       return interviewers;

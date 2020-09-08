@@ -9,6 +9,9 @@ export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
+  console.log("this is props.interviewer inside Form.js: ", interviewer);
+  
+
   const reset = function() {
     setName("");
     setInterviewer(null);
@@ -32,7 +35,7 @@ export default function Form(props) {
             onChange={(event) => setName(event.target.value)}
           />
         </form>
-        <InterviewerList interviewers={props.interviewers} interviewer={interviewer} setInterviewer={setInterviewer} />
+        <InterviewerList interviewers={props.interviewers} interviewer={interviewer} onChange={setInterviewer} />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">

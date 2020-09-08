@@ -14,8 +14,7 @@ export default function Appointment(props) {
   const {mode , transition, back} = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
-
+    
   const cancel = function() {
     back();
   }
@@ -24,11 +23,14 @@ export default function Appointment(props) {
     console.log("this is save name: ", name);
     console.log("this is the save interviewer: ", interviewer);
     
-    
+    //new interview object which is passed to props.bookInterview
     const interview = {
       student: name,
       interviewer
     };
+
+    props.bookInterview(name, interviewer);
+    transition(SHOW);
     return interview;
   }
 
@@ -41,16 +43,16 @@ export default function Appointment(props) {
         // props.onAdd()
         transition(CREATE)
       }}/>}
-      {mode === SHOW && (
+      {mode === SHOW && props.interview && (
         <Show
           student={props.interview.student}
-          interviewer={props.interview.interviewer.name}
+          interviewer={props.interview.interviewer}
         />
       )}
       {mode === CREATE && (
         <Form
-          interviewers={[]}
-          bookInterview={props.bookInterview}
+          interviewers={props.interviewers}
+          //I had a bookinterview here before that a mentor deleted
           onSave={save}
           onCancel={cancel}
         />
