@@ -24,18 +24,26 @@ export default function Application(props) {
     interviewers: []
   });
 
-  function bookInterview(id, interview) {
+  function bookInterview(interview) {
     return new Promise((resolve, reject) => {
+      
+      // console.log("this is state.appointments: ", state.appointments[id]);
+      //Gets correct id (student name) and interviewer id from save function when saving appointment
+      // console.log("this is id, interview inside of bookInterview Function: ", id, interview);
+
+
       //Bottom layer
-      console.log("this is ...state: ", state.appointments[id]);
       const appointment = {
-        ...state.appointments[id],
+        ...state.appointments,
         interview: { ...interview }
       };
+
+      console.log("this is appointment: ", appointment);
+      
       //Up one layer
       const appointments = {
         ...state.appointments,
-        [id]: appointment
+        [interview.name]: appointment
       };
       //Top Level, calling setState with the new state object
       setState({

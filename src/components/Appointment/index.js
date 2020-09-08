@@ -28,10 +28,9 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-
-    props.bookInterview(name, interviewer);
+    //passing the object interview (which is holding the inputted student name and interviewer choice) to bookInterview
+    props.bookInterview(interview);
     transition(SHOW);
-    return interview;
   }
 
   return (
