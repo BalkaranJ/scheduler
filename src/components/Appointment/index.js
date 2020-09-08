@@ -14,6 +14,7 @@ export default function Appointment(props) {
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   const DELETING = "DELETING";
+  const EDIT = "EDIT";
 
   const {mode , transition, back} = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -43,6 +44,10 @@ export default function Appointment(props) {
     promise.then(() => {transition(EMPTY)});
   }
 
+  function doEdit() {
+    transition(EDIT);
+  }
+
   return (
     <article className="appointment">
       <Header
@@ -56,20 +61,28 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onEdit={doEdit}
           onDelete={doDelete}
         />
       )}
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
-          //I had a bookinterview here before that a mentor deleted
           onSave={doSave}
           onCancel={cancel}
         />
       )}
       {mode === SAVING && (<Status message="SAVING"/>)}
       {mode === DELETING && (<Status message="DELETING"/>)}
-
+      {mode === EDIT && (
+        <Form
+        interviewer={props.interview.interviewer.id}
+        name={props.interview.student}
+        interviewers={props.interviewers}
+        onSave={doSave}
+        onCancel={cancel}
+        />
+      )}
       {/* {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer.name} /> : <Empty />} */}
     </article>
   );
