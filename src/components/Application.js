@@ -37,12 +37,6 @@ export default function Application(props) {
         [id]: appointment
       };
       
-      //Top Level, calling setState with the new state object
-      setState({
-        ...state,
-        appointments
-      });
-
       const url = `/api/appointments/${id}`;
       const promise = axios
           .put(url, appointment)
@@ -50,7 +44,24 @@ export default function Application(props) {
             setState({...state, appointments});
           });
       return promise;    
+  };
+
+  function cancelInterview(id) {
+    const appointments = state.appointments;
+    const appointment = appointments[id];
+
+
+    const url = `/api/appointments/${id}`;
+      const promise = axios
+          .delete(url)
+          .then(() => {
+            appointment.interview = null;
+            setState({...state, appointments});
+          });
+      return promise; 
   }
+
+  
 
   useEffect(() => {
     Promise.all([
@@ -92,10 +103,13 @@ export default function Application(props) {
             return (
                 <Appointment
                   key={appointment.id}
-                  {...appointment}
+                  // {...appointment}
+                  id={appointment.id}
+                  time={appointment.time}
                   interviewers={interviewers}
                   interview={interview}
-                  bookInterview={bookInterview}
+                  saveInterview={bookInterview}
+                  cancelInterview={cancelInterview}
                 />
             )
           })

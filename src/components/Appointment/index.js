@@ -6,11 +6,15 @@ import Empty from "components/Appointment/Empty";
 import Form from "components/Appointment/Form";
 
 import  useVisualMode from "hooks/useVisualMode";
+import Status from "./Status";
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const DELETING = "DELETING";
+
   const {mode , transition, back} = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -19,7 +23,7 @@ export default function Appointment(props) {
     back();
   }
 
-  function save(name, interviewer) {
+  function doSave(name, interviewer) {
     console.log("this is save name: ", name);
     console.log("this is the save interviewer: ", interviewer);
     
@@ -29,7 +33,14 @@ export default function Appointment(props) {
       interviewer
     };
     //passing the object interview (which is holding the inputted student name and interviewer choice) to bookInterview
-    props.bookInterview(props.id, interview).then(() => {transition(SHOW)});
+    transition(SAVING);
+    props.saveInterview(props.id, interview).then(() => {transition(SHOW)});
+  }
+
+  function doDelete() {
+    transition(DELETING);
+    const promise = props.cancelInterview(props.id);
+    promise.then(() => {transition(EMPTY)});
   }
 
   return (
@@ -45,16 +56,20 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={doDelete}
         />
       )}
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
           //I had a bookinterview here before that a mentor deleted
-          onSave={save}
+          onSave={doSave}
           onCancel={cancel}
         />
       )}
+      {mode === SAVING && (<Status message="SAVING"/>)}
+      {mode === DELETING && (<Status message="DELETING"/>)}
+
       {/* {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer.name} /> : <Empty />} */}
     </article>
   );
