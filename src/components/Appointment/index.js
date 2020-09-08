@@ -29,7 +29,7 @@ export default function Appointment(props) {
       interviewer
     };
     //passing the object interview (which is holding the inputted student name and interviewer choice) to bookInterview
-    props.bookInterview(interview);
+    props.bookInterview(props.id, interview);
     transition(SHOW);
   }
 
