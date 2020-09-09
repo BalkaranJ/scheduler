@@ -21,3 +21,7 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## About
+
+Created by Balkaran Jaswal. My very first project which integrates React. I used Storybook to get a good feel of how to create specific components. I used Jest framework for testing, and I also used cypress to test out GUI experience.
