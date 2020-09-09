@@ -39,7 +39,7 @@ export default function Form(props) {
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
-            placeholder="Enter Name Here"
+            placeholder="Enter Student Name"
             value={name}
             onChange={(event) => setName(event.target.value)}
             data-testid="student-name-input"
@@ -51,7 +51,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
            <Button onClick={cancel} danger>Cancel</Button>
-           <Button onClick={() => props.onSave(name, interviewer)} confirm>Save</Button>
+           <Button onClick={() => validate()} confirm>Save</Button>
         </section>
       </section>
     </main>
