@@ -33,12 +33,12 @@ export default function Appointment(props) {
     console.log("this is save name: ", name);
     console.log("this is the save interviewer: ", interviewer);
     
-    //new interview object which is passed to props.bookInterview
+    //new interview object which is passed to props.saveInterview
     const interview = {
       student: name,
       interviewer
     };
-    //passing the object interview (which is holding the inputted student name and interviewer choice) to bookInterview
+    //passing the object interview (which is holding the inputted student name and interviewer choice) to saveInterview
     transition(SAVING);
     props.saveInterview(props.id, interview).then(() => {transition(SHOW)}).catch(error => transition(ERROR_SAVE, true));
   }
